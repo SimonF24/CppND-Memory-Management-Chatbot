@@ -45,6 +45,75 @@ ChatBot::~ChatBot()
 //// STUDENT CODE
 ////
 
+ChatBot::ChatBot(const ChatBot& chatbot)
+{
+    std::cout << "ChatBot Copy Constructor" << std::endl;
+
+    this->_chatLogic = chatbot._chatLogic;
+    this->_chatLogic->SetChatbotHandle(this);
+    this->_rootNode = chatbot._rootNode;
+    this->_currentNode = chatbot._currentNode;
+
+    if (chatbot._image == nullptr)
+        this->_image = nullptr;
+    else
+        this->_image = new wxBitmap(*chatbot._image);
+}
+
+ChatBot& ChatBot::operator=(const ChatBot& chatbot)
+{
+    std::cout << "ChatBot Copy Assignment Operator" << std::endl;
+
+    this->_chatLogic = chatbot._chatLogic;
+    this->_chatLogic->SetChatbotHandle(this);
+    this->_rootNode = chatbot._rootNode;
+    this->_currentNode = chatbot._currentNode;
+
+    if (chatbot._image == nullptr)
+        this->_image = nullptr;
+    else
+        this->_image = new wxBitmap(*chatbot._image);
+    
+    return *this;
+}
+
+ChatBot::ChatBot(ChatBot&& chatbot)
+{
+    std::cout << "ChatBot Move Constructor" << std::endl;
+
+    this->_chatLogic = chatbot._chatLogic;
+    this->_chatLogic->SetChatbotHandle(this);
+    this->_rootNode = chatbot._rootNode;
+    this->_currentNode = chatbot._currentNode;
+    this->_image = chatbot._image;
+
+    chatbot._chatLogic = nullptr;
+    chatbot._rootNode = nullptr;
+    chatbot._currentNode = nullptr;
+    chatbot._image = NULL; // matching the convention
+}
+
+ChatBot& ChatBot::operator=(ChatBot&& chatbot)
+{
+    std::cout << "ChatBot Move Assignment Operator" << std::endl;
+
+    if (this == &chatbot)
+        return *this;
+
+    this->_chatLogic = chatbot._chatLogic;
+    this->_chatLogic->SetChatbotHandle(this);
+    this->_rootNode = chatbot._rootNode;
+    this->_currentNode = chatbot._currentNode;
+    this->_image = chatbot._image;
+
+    chatbot._chatLogic = nullptr;
+    chatbot._rootNode = nullptr;
+    chatbot._currentNode = nullptr;
+    chatbot._image = NULL; // matching the convention
+
+    return *this;
+}
+
 ////
 //// EOF STUDENT CODE
 
